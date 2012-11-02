@@ -1,23 +1,25 @@
 {
-    "name"               : "cmd",
-    "version"            : "0.0.1",
-    "description"        : "Utilities for executing commandlines.",
-    "keywords"           : ["cmd", "commandline", "exec"],
-    "homepage"           : "http://localhost",
-    "bugs"               : "",
-    "author"             : {
-        "name"  : "Matthew Kastor",
-        "email" : "matthewkastor@gmail.com",
-        "url"   : "https://plus.google.com/100898583798552211130"
+                    
+    "name"          : "cmd",
+    "version"       : "0.0.1",
+    "description"   : "Utilities for executing commandlines.",
+    "keywords"      : ["cmd", "commandline", "exec"],
+    "homepage"      : "http://localhost",
+    "bugs"          : "",
+    "author"        : {
+                        "name"      : "Matthew Kastor",
+                        "email"     : "matthewkastor@gmail.com",
+                        "url"       : "https://plus.google.com/100898583798552211130"
+    },              
+    "main"          : "./cmd.js",
+    "repository     : {
+                        "type"      : "git",
+                        "url"       : "",
     },
-    "main"               : "./cmd.js",
-    "devDependencies"    : {
-        "vows": "0.6.x"
+    "optionalDependencies"  : {
+                        "colors"    : ">=0.6.0-1",
     },
-    "volo": {
-        "url": "https://raw.github.com/janl/mustache.js/0.7.0/mustache.js"
-    },
-    "scripts": {
-        "test": "vows --spec"
+    "engines"       : {
+                        "node"      : ">=0.8.14"
     }
 }

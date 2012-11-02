@@ -8,7 +8,6 @@
  * @requires events
  * @requires util
  * @requires child_process
- * @requires colors
  * @exports asynchronousCommand
  * @exports commandRegister
  */
@@ -21,8 +20,6 @@ fs     = require('fs');
 events = require('events');
 util   = require('util');
 exec   = require('child_process').exec;
-colors = require('colors');
-colors.setTheme(JSON.parse(fs.readFileSync('jake/confFiles/consoleColors.json', 'utf8')));
 
 /**
  * Contains command register classes.
@@ -49,27 +46,11 @@ asynchronousCommand = function asynchronousCommand(commandString, workingDirecto
     
     callback = callback || function () {};
     
-    console.log();
-    console.log('Executing'.info + ' : ' + commandString.data);
-    console.log('From Dir'.info + ' : ' + workingDirectory.data);
-    console.log();
-    
     child = exec(commandString,
         {
             cwd : workingDirectory
         },
-        function (error, stdout, stderr) {
-            if (error !== null) {
-                console.log(error.warn);
-            }
-            if (stdout !== '') {
-                console.log(stdout.data);
-            }
-            if (stderr !== '') {
-                console.log(stderr.warn);
-            }
-            callback(error, stdout, stderr);
-        }
+        callback(error, stdout, stderr);
     );
 };
 
@@ -106,7 +87,7 @@ commandRegister.Synchronous = function Synchronous(name) {
     }
     
     this.process = function() {
-        console.log('Processing synchronous command register'.info + ' : ' + that.name.help);
+        that.emit('command queue begin process', that.name);
         process();
     };
 };
@@ -158,14 +139,13 @@ commandRegister.Asynchronous = function Asynchronous(name) {
             command(commandComplete);
             process();
         } else {
-            console.log();
-            console.log('These tasks are running in parallel, this might take a minute...'.help);
+            that.emit('waiting for commands to complete', that.name);
         }
     }
     
     this.process = function() {
         counter = this.queue.length;
-        console.log('Processing asynchronous command register'.info + ' : ' + that.name.help);
+        that.emit('command queue begin process', that.name);
         process();
     };
 };
