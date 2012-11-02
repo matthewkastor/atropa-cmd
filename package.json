@@ -1,0 +1,23 @@
+{
+    "name"               : "cmd",
+    "version"            : "0.0.1",
+    "description"        : "Utilities for executing commandlines.",
+    "keywords"           : ["cmd", "commandline", "exec"],
+    "homepage"           : "http://localhost",
+    "bugs"               : "",
+    "author"             : {
+        "name"  : "Matthew Kastor",
+        "email" : "matthewkastor@gmail.com",
+        "url"   : "https://plus.google.com/100898583798552211130"
+    },
+    "main"               : "./cmd.js",
+    "devDependencies"    : {
+        "vows": "0.6.x"
+    },
+    "volo": {
+        "url": "https://raw.github.com/janl/mustache.js/0.7.0/mustache.js"
+    },
+    "scripts": {
+        "test": "vows --spec"
+    }
+}
