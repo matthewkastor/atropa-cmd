@@ -5,7 +5,7 @@
     "description"   : "Utilities for executing commandlines.",
     "keywords"      : ["cmd", "commandline", "exec"],
     "homepage"      : "http://localhost",
-    "bugs"          : "",
+    "bugs"          : "https://github.com/matthewkastor/cmd/issues",
     "author"        : {
                         "name"      : "Matthew Kastor",
                         "email"     : "matthewkastor@gmail.com",
@@ -14,7 +14,7 @@
     "main"          : "./cmd.js",
     "repository     : {
                         "type"      : "git",
-                        "url"       : "",
+                        "url"       : "git://github.com/matthewkastor/cmd.git",
     },
     "optionalDependencies"  : {
                         "colors"    : ">=0.6.0-1",
