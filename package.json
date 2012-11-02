@@ -5,7 +5,7 @@
     "main"          : "./cmd.js",
     "description"   : "Utilities for executing commandlines.",
     "keywords"      : ["cmd", "commandline", "exec"],
-    "homepage"      : "http://localhost",
+    "homepage"      : "https://github.com/matthewkastor/atropa-cmd/",
     "bugs"          : "https://github.com/matthewkastor/atropa-cmd/issues",
     "author"        : {
                         "name"      : "Matthew Kastor",
