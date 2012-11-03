@@ -32,7 +32,7 @@ commandRegister = {};
  *  should be the same as running it on the command line. When the command
  *  is finished running the callback will be executed and any data sent to
  *  stdout, stderr, or any errors in attempting to run the command will be
- *  logged to the console.
+ *  passed to it.
  * @function
  * @param {String} commandString The command you want to run.
  * @param {String} workingDirectory The path you want to start from.
@@ -50,15 +50,12 @@ asynchronousCommand = function asynchronousCommand(commandString, workingDirecto
         {
             cwd : workingDirectory
         },
-        callback(error, stdout, stderr);
+        callback
     );
 };
 
 /**
- * Shifts a command off the command queue and executes it. All commands
- *  will be given a callback as their only argument. If the command being
- *  processed from the queue decides not to execute this callback, no more
- *  commands will be shifted off the queue.
+ * Represents a register for a set of commands which will be executed in order, one at a time.
  * @class
  * @param {String} name A name to identify this register.
  * @emits {command queue processed} Emits a 'command queue processed'
@@ -72,7 +69,13 @@ commandRegister.Synchronous = function Synchronous(name) {
     that = this;
     events.EventEmitter.call(this);
     
+    /**
+     * The name assigned to this commands register
+     */
     this.name = name;
+    /**
+     * The queue to fill with commands.
+     */
     this.queue = [];
     
     function process() {
@@ -86,6 +89,12 @@ commandRegister.Synchronous = function Synchronous(name) {
         }
     }
     
+    /**
+     * Shifts commands off the command queue and executes them one by one. All commands
+     *  will be given a callback as their only argument. If the command being
+     *  processed from the queue decides not to execute this callback, no more
+     *  commands will be shifted off the queue.
+     */
     this.process = function() {
         that.emit('command queue begin process', that.name);
         process();
@@ -94,9 +103,7 @@ commandRegister.Synchronous = function Synchronous(name) {
 util.inherits(commandRegister.Synchronous, events.EventEmitter);
 
 /**
- * Shifts a command off the command queue and executes it. All commands
- *  will be given a callback as their only argument. This callback will be 
- *  used to fire an event at command completion.
+ * Represents a register for a set of commands which will be executed simultaneously.
  * @class
  * @param {String} name A name to identify this register.
  * @emits {command queue processed} Emits a 'command queue processed'
@@ -114,7 +121,13 @@ commandRegister.Asynchronous = function Asynchronous(name) {
     that = this;
     events.EventEmitter.call(this);
     
+    /**
+     * The name assigned to this commands register
+     */
     this.name = name;
+    /**
+     * The queue to fill with commands.
+     */
     this.queue = [];
     counter = this.queue.length;
     
@@ -143,6 +156,13 @@ commandRegister.Asynchronous = function Asynchronous(name) {
         }
     }
     
+    /**
+     * Shifts commands off the command queue and executes them simultaneously. All commands
+     *  will be given a callback as their only argument. The callback must be executed
+     *  to allow the register to know when it is finished so it can emit
+     *  'command queue processed'. The callback itself will cause the register to emit
+     *  'command complete' once the command has finished executing.
+     */
     this.process = function() {
         counter = this.queue.length;
         that.emit('command queue begin process', that.name);
