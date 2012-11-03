@@ -1,7 +1,7 @@
 {
                     
     "name"          : "atropa-cmd",
-    "version"       : "0.0.2",
+    "version"       : "0.1.0",
     "main"          : "./cmd.js",
     "description"   : "Utilities for executing commandlines.",
     "keywords"      : ["cmd", "commandline", "exec"],
@@ -12,12 +12,9 @@
                         "email"     : "matthewkastor@gmail.com",
                         "url"       : "https://plus.google.com/100898583798552211130"
     },              
-    "repository"     : {
+    "repository"    : {
                         "type"      : "git",
                         "url"       : "git://github.com/matthewkastor/atropa-cmd.git"
-    },
-    "optionalDependencies"  : {
-                        "colors"    : ">=0.6.0-1"
     },
     "engines"       : {
                         "node"      : ">=0.8.14"

@@ -5,8 +5,31 @@ This package provides a few utilies for executing commandline programs. It provi
 
 It's easy.
 
-- Write up functions that utilize the command runner and accept a callback as their only argument
-- Push or unshift the functions into the queue of an instance of the async or sync register
-- Call the registers `process` function to process the queue of functions
+- Create an instance of an async or sync register.
+- Use the `addCommand` method of the register to add commands to it.
+- Set listeners if you need notifications. Set callbacks if you need stdout.
+- Call the registers `process` function to process the queue of functions.
 
-For more details see the docs folder, or the comments in the code. The script is really small, it's likely easiest just to read it.
+```
+var cmd, syncy;
+
+cmd = require('atropa-cmd');
+
+function logStdout(err, stdout, stderr) {
+    console.log(stdout);
+}
+
+syncy = new cmd.commandRegister.Synchronous('Syncy');
+
+syncy.on('command executing', function(e) {
+    console.log('command executing');
+    console.dir(e);
+    console.log();
+});
+
+syncy.addCommand('dir', 'C:\\Users\\kastor\\Desktop', logStdout);
+syncy.addCommand('tree /A', 'C:\\Users\\kastor\\Desktop', logStdout);
+syncy.process();
+```
+
+For more details see the example script, or the comments in the code. The script is really small, it's likely easiest just to read it.
