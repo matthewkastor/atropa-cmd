@@ -2,9 +2,9 @@
                     
     "name"          : "atropa-cmd",
     "version"       : "0.1.0",
-    "main"          : "./cmd.js",
+    "main"          : "./atropa-cmd.js",
     "description"   : "Utilities for executing commandlines.",
-    "keywords"      : ["cmd", "commandline", "exec"],
+    "keywords"      : ["cmd", "commandline", "exec", "atropa"],
     "homepage"      : "https://github.com/matthewkastor/atropa-cmd/",
     "bugs"          : "https://github.com/matthewkastor/atropa-cmd/issues",
     "author"        : {
