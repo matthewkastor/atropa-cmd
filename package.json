@@ -1,7 +1,7 @@
 {
                     
     "name"          : "atropa-cmd",
-    "version"       : "0.1.1",
+    "version"       : "0.1.2",
     "main"          : "./atropa-cmd.js",
     "description"   : "Utilities for executing commandlines.",
     "keywords"      : ["cmd", "commandline", "exec", "atropa"],
