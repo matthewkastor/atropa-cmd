@@ -14,7 +14,7 @@
 
 'use strict';
 
-var fs, util, events, exec, colors, commandRegister, asynchronousCommand;
+var fs, util, events, exec, commandRegister, asynchronousCommand;
 
 fs     = require('fs');
 events = require('events');
@@ -118,6 +118,7 @@ commandRegister.Base = function(name, sync) {
     this.addCommand = function addCommand(command, startDirectory, consoleDataHandler) {
         queue.push(function(callback) {
             callback = callback || function() {};
+            consoleDataHandler = consoleDataHandler || function() {};
             that.emit('command executing', {'register' : that.name, 'command' : command, 'startDirectory' : startDirectory});
             asynchronousCommand(command, startDirectory, function(err, stdout, stderr) {
                 consoleDataHandler(err, stdout, stderr);
