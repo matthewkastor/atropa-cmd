@@ -1,9 +1,6 @@
 /*jslint indent: 4, maxerr: 50, white: true, node: true, stupid: true */
 
 /**
- * The atropa-cmd module.
- * @module atropa-cmd
- * @main atropa-cmd
  * @file Utilities for executing commandlines.
  * @author <a href="matthewkastor@gmail.com">Matthew Kastor</a>
  * @version 0.1.0
@@ -17,7 +14,7 @@
 
 'use strict';
 
-var fs, util, events, exec, asynchronousCommand, commandRegister;
+var fs, util, events, exec, commandRegister, asynchronousCommand;
 
 fs     = require('fs');
 events = require('events');
@@ -25,15 +22,18 @@ util   = require('util');
 exec   = require('child_process').exec;
 
 /**
+ * Contains command register classes.
+ * @namespace
+ */
+commandRegister = {};
+
+/**
  * Executes an asynchronous command. For all intents and purposes this
  *  should be the same as running it on the command line. When the command
  *  is finished running the callback will be executed and any data sent to
  *  stdout, stderr, or any errors in attempting to run the command will be
  *  passed to it.
- * @class asynchronousCommand
- * @static
- * @constructor
- * @async
+ * @function
  * @param {String} commandString The command you want to run.
  * @param {String} workingDirectory The path you want to start from.
  * @param {Function} callback Optional. A function to execute upon
@@ -55,16 +55,7 @@ asynchronousCommand = function asynchronousCommand(commandString, workingDirecto
 };
 
 /**
- * A namespace for command register classes.
- * @class commandRegister
- * @static
- */
-commandRegister = {};
-
-/**
  * Base command register class.
- * @class commandRegister.Base
- * @constructor Base
  * @emits {Object} 'command queue begin process' Emitted when the register begins processing the queue.
  * @emits {Object} 'command executing' Emitted as each command is started.
  * @emits {Object} 'command complete' Emitted as each command completes.
@@ -77,39 +68,18 @@ commandRegister.Base = function(name, sync) {
     var that, queue, counter;
     
     events.EventEmitter.call(this);
-    /**
-     * Holds a reference to this for the class.
-     * @property {Object} that
-     * @private
-     */
+    
     that = this;
-    /**
-     * The internal commands queue.
-     * @property {Array} queue
-     * @private
-     */
     queue = [];
-    /**
-     * Counter indicates how many commands are left to complete.
-     * @property {Number} counter
-     * @private
-     */
     counter = queue.length;
     sync = (sync) ? true : false;
     
     
     /**
      * The name assigned to this commands register
-     * @property {String} name
-     * @protected
      */
     this.name = name;
     
-    /**
-     * Decriments the counter.
-     * @method decriment
-     * @private
-     */
     function decriment(startDirectory, command) {
         counter -= 1;
         that.emit('command complete', {'register' : that.name, 'command' : command, 'startDirectory' : startDirectory});
@@ -118,11 +88,6 @@ commandRegister.Base = function(name, sync) {
         }
     }
     
-    /**
-     * Processes the queue of commands.
-     * @method process
-     * @private
-     */
     function process() {
         var command;
         
@@ -145,8 +110,6 @@ commandRegister.Base = function(name, sync) {
     
     /**
      * Pushes commands on to the command queue.
-     * @method addCommand
-     * @protected
      * @param {String} command The command to execute
      * @param {String} startDirectory The working directory for the command to use when executing.
      * @param {Function} consoleDataHandler A callback function which will receive three parameters
@@ -170,8 +133,7 @@ commandRegister.Base = function(name, sync) {
      *  will be given a callback as their only argument. If the command being
      *  processed from the queue decides not to execute this callback, no more
      *  commands will be shifted off the queue.
-     * @method process
-     * @protected
+     * @function
      */
      this.process = function() {
         counter = queue.length;
@@ -183,9 +145,7 @@ util.inherits(commandRegister.Base, events.EventEmitter);
 
 /**
  * Represents a register for a set of commands which will be executed in order, one at a time.
- * @class commandRegister.Synchronous
- * @constructor
- * @extends commandRegister.Base
+ * @class
  * @param {String} name A name to identify this register.
  */
 commandRegister.Synchronous = function Synchronous(name) {
@@ -195,9 +155,7 @@ util.inherits(commandRegister.Synchronous, events.EventEmitter);
 
 /**
  * Represents a register for a set of commands which will be executed simultaneously.
- * @class commandRegister.Asynchronous
- * @constructor
- * @extends commandRegister.Base
+ * @class
  * @param {String} name A name to identify this register.
  */
 commandRegister.Asynchronous = function Asynchronous(name) {
@@ -206,11 +164,5 @@ commandRegister.Asynchronous = function Asynchronous(name) {
 util.inherits(commandRegister.Asynchronous, events.EventEmitter);
 
 
-/**
- * Exports
- * @class exports
- * @static
- * @uses asynchronousCommand
- */
 exports.asynchronousCommand = asynchronousCommand;
 exports.commandRegister     = commandRegister;
